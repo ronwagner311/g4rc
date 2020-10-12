@@ -1,0 +1,5 @@
+/g4rc/filename g4bg_out.root
+/g4rc/poly 1
+/g4rc/polyT 1 mm
+/run/initialize
+/run/beamOn 1000000

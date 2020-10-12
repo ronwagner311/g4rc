@@ -1,0 +1,46 @@
+---------------------------------------------------
+Packages to build this:
+
+>=Geant4.10
+cmake > 2.6
+root
+
+---------------------------------------------------
+
+Instructions:
+
+To build, create the directory you would like to
+build in, say build
+
+$ mkdir build
+$ ls 
+g4bg  build
+$ cd build
+$ cmake ../g4bg
+$ make
+
+An example macro will be found in
+
+macros/runexmaple.mac
+
+To run in batch mode, execute with a macro such as:
+
+./g4rc macros/runexample.mac
+
+Ensure that all macros include a /run/initialization command or else they will
+not work. 
+
+==== Visualization ===============
+
+Visualization macros are found in vis/
+
+To run, execute
+
+./qsim
+
+which should bring up a graphical command interface
+
+To see the geometry:
+
+/control/execute macros/vis.mac
+
