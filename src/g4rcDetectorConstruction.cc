@@ -179,45 +179,6 @@ G4VPhysicalVolume* g4rcDetectorConstruction::Construct() {
 
 	// End of simple GEM detector definition
 
-	// Start of simple LAD detector definition	
-
-	// Define the LADs
-	double w_lad = 100.*cm;
-	double h_lad = 50.*cm;
-	double t_lad = 1.*cm;
-	
-	double r_lad = 70.*cm;
-	double lad1_angle = 55.*deg;
-	double lad2_angle = 30.*deg;
-	
-	double x_lad1 = r_lad*sin(lad1_angle);
-	double z_lad1 = r_lad*cos(lad1_angle);
-
-	double x_lad2 = r_lad*sin(lad2_angle);
-	double z_lad2 = r_lad*sin(lad2_angle);
-	
-	G4ThreeVector pos_lad1 = G4ThreeVector(x_lad1, 0., z_lad1);
-	G4ThreeVector pos_lad2 = G4ThreeVector(x_lad2, 0., z_lad2);
-
-	G4RotationMatrix* rot_lad1 = new G4RotationMatrix();
-        rot_lad1->rotateY(lad1_angle);
-	G4RotationMatrix* rot_lad2 = new G4RotationMatrix();
-        rot_lad1->rotateY(-lad2_angle);
-
-	G4Box* lad1_box = new G4Box("lad1_box", w_lad/2., h_lad/2., t_lad/2.);  
-	G4LogicalVolume* lad1_log = new G4LogicalVolume(lad1_box, fMaterial->vacuum, "lad1_log", 0, 0, 0);
-	g4rcDetector* lad1_SD = new g4rcDetector("lad1_SD",401);
-	SDman->AddNewDetector(lad1_SD);
-	lad1_log->SetSensitiveDetector(lad1_SD);
-	G4VPhysicalVolume* lad1_phys = new G4PVPlacement(rot_lad1, pos_lad1, lad1_log, "lad1_physical", world_log, false, 0);
-	
-	G4Box* lad2_box = new G4Box("lad2_box", w_lad/2., h_lad/2., t_lad/2.);  
-	G4LogicalVolume* lad2_log = new G4LogicalVolume(lad2_box, fMaterial->vacuum, "lad2_log", 0, 0, 0);
-	g4rcDetector* lad2_SD = new g4rcDetector("lad2_SD",402);
-	SDman->AddNewDetector(lad2_SD);
-	lad2_log->SetSensitiveDetector(lad2_SD);
-	G4VPhysicalVolume* lad2_phys = new G4PVPlacement(rot_lad2, pos_lad2, lad2_log, "lad2_physical", world_log, false, 0);
-
 	
 /*
 	// Start of full GEM detector definition
@@ -448,7 +409,12 @@ void g4rcDetectorConstruction::AddGEM(G4LogicalVolume *mother, int layerid, bool
 
 }
 
-
+void g4rcDetectorConstruction::AddGEMSD(int layerid){
+	TrackingDetectorSD *GEMSD = new TrackingDetectorSD("GEMSD", "GEM");
+	G4SDManager::GetSDMpointer()->AddNewDetector(GEMSD);
+	SetSensitiveDetector("GEM0CathodeLV", GEMSD);
+	SetSensitiveDetector("GEM1CathodeLV", GEMSD);
+}
 
 void g4rcDetectorConstruction::GetTargetIndex(G4String targ) {
 
