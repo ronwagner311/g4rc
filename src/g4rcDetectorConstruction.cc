@@ -117,7 +117,7 @@ G4VPhysicalVolume* g4rcDetectorConstruction::Construct() {
 	G4RotationMatrix* rot_gem = new G4RotationMatrix();
 	rot_gem->rotateY(180.*deg - gem_angle);
 
-
+/*
 	G4Box* gem1_box = new G4Box("gem1_box", w_gem/2., h_gem/2., t_gem/2.);  
 	G4LogicalVolume* gem1_log = new G4LogicalVolume(gem1_box, fMaterial->vacuum, "gem1_log", 0, 0, 0);
 	g4rcDetector* gem1_SD = new g4rcDetector("gem1_SD",101);
@@ -131,7 +131,7 @@ G4VPhysicalVolume* g4rcDetectorConstruction::Construct() {
 	SDman->AddNewDetector(gem2_SD);
 	gem2_log->SetSensitiveDetector(gem2_SD);
 	G4VPhysicalVolume* gem2_phys = new G4PVPlacement(rot_gem, pos2, gem2_log, "gem2_physical", world_log, false, 0);
-
+*/
 	// Plastic film
 	double h_poly = h_gem + 5.*cm;
 	double w_poly = w_gem + 5.*cm;
@@ -169,65 +169,37 @@ G4VPhysicalVolume* g4rcDetectorConstruction::Construct() {
 
 	G4RotationMatrix* rot_gmn = new G4RotationMatrix();
         rot_gmn->rotateY(180.*deg - gmn_angle);
-
+/*
 	G4Box* gmn_box = new G4Box("gmn_box", w_gmn/2., h_gmn/2., t_gmn/2.);  
 	G4LogicalVolume* gmn_log = new G4LogicalVolume(gmn_box, fMaterial->vacuum, "gmn_log", 0, 0, 0);
 	g4rcDetector* gmn_SD = new g4rcDetector("gmn_SD",201);
 	SDman->AddNewDetector(gmn_SD);
 	gmn_log->SetSensitiveDetector(gmn_SD);
 	G4VPhysicalVolume* gmn_phys = new G4PVPlacement(rot_gmn, pos_gmn, gmn_log, "gmn_physical", world_log, false, 0);
-
+*/
 	// End of simple GEM detector definition
 
-	// Start of simple LAD detector definition	
-
-	// Define the LADs
-	double w_lad = 100.*cm;
-	double h_lad = 50.*cm;
-	double t_lad = 1.*cm;
 	
-	double r_lad = 70.*cm;
-	double lad1_angle = 55.*deg;
-	double lad2_angle = 30.*deg;
-	
-	double x_lad1 = r_lad*sin(lad1_angle);
-	double z_lad1 = r_lad*cos(lad1_angle);
 
-	double x_lad2 = r_lad*sin(lad2_angle);
-	double z_lad2 = r_lad*sin(lad2_angle);
-	
-	G4ThreeVector pos_lad1 = G4ThreeVector(x_lad1, 0., z_lad1);
-	G4ThreeVector pos_lad2 = G4ThreeVector(x_lad2, 0., z_lad2);
-
-	G4RotationMatrix* rot_lad1 = new G4RotationMatrix();
-        rot_lad1->rotateY(lad1_angle);
-	G4RotationMatrix* rot_lad2 = new G4RotationMatrix();
-        rot_lad1->rotateY(-lad2_angle);
-
-	G4Box* lad1_box = new G4Box("lad1_box", w_lad/2., h_lad/2., t_lad/2.);  
-	G4LogicalVolume* lad1_log = new G4LogicalVolume(lad1_box, fMaterial->vacuum, "lad1_log", 0, 0, 0);
-	g4rcDetector* lad1_SD = new g4rcDetector("lad1_SD",401);
-	SDman->AddNewDetector(lad1_SD);
-	lad1_log->SetSensitiveDetector(lad1_SD);
-	G4VPhysicalVolume* lad1_phys = new G4PVPlacement(rot_lad1, pos_lad1, lad1_log, "lad1_physical", world_log, false, 0);
-	
-	G4Box* lad2_box = new G4Box("lad2_box", w_lad/2., h_lad/2., t_lad/2.);  
-	G4LogicalVolume* lad2_log = new G4LogicalVolume(lad2_box, fMaterial->vacuum, "lad2_log", 0, 0, 0);
-	g4rcDetector* lad2_SD = new g4rcDetector("lad2_SD",402);
-	SDman->AddNewDetector(lad2_SD);
-	lad2_log->SetSensitiveDetector(lad2_SD);
-	G4VPhysicalVolume* lad2_phys = new G4PVPlacement(rot_lad2, pos_lad2, lad2_log, "lad2_physical", world_log, false, 0);
-
-	
-/*
 	// Start of full GEM detector definition
 
 	AddGEM(world_log, 101, false, 55.04*cm, 122.88*cm, rot_gem, pos1);
 	AddGEM(world_log, 102, false, 55.04*cm, 122.88*cm, rot_gem, pos2);
-	AddGEM(world_log, 201, false, 50.*cm, 50.*cm, rot_gmn, pos_gmn); 	
+	
+	TrackingDetectorSD *GEMSD1 = new TrackingDetectorSD("GEMSD1", "GEM1");
+	G4SDManager::GetSDMpointer()->AddNewDetector(GEMSD1);
+	SetSensitiveDetector(Form("GEM%dCathodeLV",101), GEMSD1);
+	SetSensitiveDetector(Form("GEM%dCathodeLV",102), GEMSD1);
+	
+	AddGEM(world_log, 201, false, 50.*cm, 50.*cm, rot_gmn, pos_gmn);
+ 	
+	TrackingDetectorSD *GEMSD2 = new TrackingDetectorSD("GEMSD2", "GEM2");
+	G4SDManager::GetSDMpointer()->AddNewDetector(GEMSD2);
+	SetSensitiveDetector(Form("GEM%dCathodeLV",201), GEMSD2);
+
 	
 	// End of full GEM detector definition
-*/
+
 
 	G4VPhysicalVolume* world_phys
 	= new G4PVPlacement(0,G4ThreeVector(),world_log,"World",0,false,0);
@@ -447,7 +419,6 @@ void g4rcDetectorConstruction::AddGEM(G4LogicalVolume *mother, int layerid, bool
 
 
 }
-
 
 
 void g4rcDetectorConstruction::GetTargetIndex(G4String targ) {

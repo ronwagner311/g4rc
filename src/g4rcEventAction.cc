@@ -2,6 +2,8 @@
 #include "g4rcDetectorHit.hh"
 #include "g4rcSteppingAction.hh"
 
+#include "GemHit.hh"
+
 #include "G4Event.hh"
 #include "G4EventManager.hh"
 #include "G4HCofThisEvent.hh"
@@ -55,17 +57,31 @@ void g4rcEventAction::EndOfEventAction(const G4Event* evt ) {
 		  // Dyanmic cast to test types, process however see fit and feed to IO
 		  
 		  ////  Detector Hits ///////////////////////////////////
-		  if( g4rcDetectorHitsCollection *thiscast = 
-			  dynamic_cast<g4rcDetectorHitsCollection *>(thiscol)){
-		      for( unsigned int hidx = 0; hidx < thiscast->GetSize(); hidx++ ){
-			  fIO->AddDetectorHit(
+			if( g4rcDetectorHitsCollection *thiscast = 
+				dynamic_cast<g4rcDetectorHitsCollection *>(thiscol)){
+				for( unsigned int hidx = 0; hidx < thiscast->GetSize(); hidx++ ){
+				fIO->AddDetectorHit(
 				  (g4rcDetectorHit *) thiscast->GetHit(hidx) );
-		      }
-		  }
+				}
+			}
+			if(GemHitsCollection *thiscast = dynamic_cast<GemHitsCollection *>(thiscol)){
+				for( unsigned int hidx = 0; hidx < thiscast->GetSize(); hidx++ ){
+					G4String ColName = thiscol->GetName();
+					if(ColName == "GEM1Coll"){
+						fIO->AddGem1Hit(
+							(GemHit *) thiscast->GetHit(hidx) );
+					}
+					if(ColName == "GEM2Coll"){
+						fIO->AddGem2Hit(
+							(GemHit *) thiscast->GetHit(hidx) );
+					}
+				}
+			}
+		  } 
 		  
-	      }
 	  }
 	}
+
 
 	// Fill tree and reset buffers
 	fIO->FillTree();
