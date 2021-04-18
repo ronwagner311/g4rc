@@ -24,10 +24,7 @@
 // ********************************************************************
 //
 // GemHit.cc
-// Developer : Jixie Zhang(original), Chao Gu
-// History:
-//   Jan 2017, C. Gu, Add for ROOT support.
-//
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
