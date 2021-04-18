@@ -34,10 +34,10 @@
 
 #include "TrackingDetectorSD.hh"
 
-#include "GlobalVars.hh"
-#include "RootTree.hh"
+
 #include "GemHit.hh"
 #include "TrackInformation.hh"
+#include "g4rcIO.hh"
 
 #include "TROOT.h"
 #include "TError.h"
@@ -60,28 +60,11 @@ TrackingDetectorSD::TrackingDetectorSD(G4String name, G4String abbrev) : G4VSens
 {
     fID = name.hash() % 100000;
     //G4cout << name << "\t" << fAbbrev << "\t" << fID << G4endl;
-
+	fHCID=-1
     G4String cname = "Coll";
     cname = fAbbrev + cname;
     collectionName.insert(cname);
 
-    fN = 0;
-
-    for (int i = 0; i < MaxNHits; i++) {
-        fPID[i] = -9999;
-        fTID[i] = -9999;
-        fPTID[i] = -9999;
-        fDID[i] = -9999;
-        fX[i] = 1e+38;
-        fY[i] = 1e+38;
-        fZ[i] = 1e+38;
-        fMomentum[i] = 1e+38;
-        fTheta[i] = 1e+38;
-        fPhi[i] = 1e+38;
-        fTime[i] = 1e+38;
-        fEdep[i] = 1e+38;
-        fTrackL[i] = 1e+38;
-    }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -93,17 +76,17 @@ TrackingDetectorSD::~TrackingDetectorSD()
 
 void TrackingDetectorSD::Initialize(G4HCofThisEvent *HCE)
 {
+/*
     if (!fRegistered) {
         Register(gRootTree->GetTree());
         fRegistered = true;
     }
-
+*/
     fHitsCollection = new GemHitsCollection(SensitiveDetectorName, collectionName[0]);
 
     G4int HCID = G4SDManager::GetSDMpointer()->GetCollectionID(fHitsCollection);
     HCE->AddHitsCollection(HCID, fHitsCollection);
 
-    Clear();
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -211,6 +194,50 @@ G4bool TrackingDetectorSD::ProcessHits(G4Step *aStep, G4TouchableHistory *)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+void TrackingDetectorSD::EndOfEvent(G4HCofThisEvent *HCE)
+{
+	G4SDManager *sdman = G4SDManager::GetSDMpointer();
+
+    if(fHCID<0){ fHCID = sdman->GetCollectionID(collectionName[0]); }
+
+    HCE->AddHitsCollection( fHCID, fHitsCollection );
+    return;
+/*
+    if (!HCE) return; //no hits collection found
+
+    int NHits = fHitsCollection->GetSize();
+
+    if (NHits <= 0) return;
+
+    fN = NHits;
+
+    if (fN > MaxNHits) {
+        G4cout << "WARNING: " << fN << " hits in " << fHitsCollection->GetName() << " exceed " << MaxNHits << G4endl;
+        fN = MaxNHits;
+    }
+
+    for (int i = 0; i < fN; i++) {
+        StandardHit *aHit = (*fHitsCollection)[i];
+
+        fPID[i] = aHit->GetPID();
+        fTID[i] = aHit->GetTrackID();
+        fPTID[i] = aHit->GetParentTrackID();
+        fDID[i] = aHit->GetDetectorID();
+        fX[i] = aHit->GetInPos().x();
+        fY[i] = aHit->GetInPos().y();
+        fZ[i] = aHit->GetInPos().z();
+        fMomentum[i] = aHit->GetInMom().mag();
+        fTheta[i] = aHit->GetInMom().theta();
+        fPhi[i] = aHit->GetInMom().phi();
+        fTime[i] = aHit->GetTime();
+        fEdep[i] = aHit->GetEdep();
+        fTrackL[i] = aHit->GetTrackLength();
+    }
+*/
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+/*
 void TrackingDetectorSD::Register(TTree *tree)//change to io class
 {
 
@@ -231,9 +258,10 @@ void TrackingDetectorSD::Register(TTree *tree)//change to io class
     tree->Branch(Form("%s.TrackL", abbr), fTrackL, Form("%s.TrackL[%s.N]/D", abbr, abbr));
     tree->Branch(Form("%s.DID", abbr), fDID, Form("%s.DID[%s.N]/I", abbr, abbr));
 }
-
+*/
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+/*
 void TrackingDetectorSD::Clear()
 {
     for (int i = 0; i < fN; i++) {
@@ -254,5 +282,5 @@ void TrackingDetectorSD::Clear()
 
     fN = 0;
 }
-
+*/
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

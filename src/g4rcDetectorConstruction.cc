@@ -117,7 +117,7 @@ G4VPhysicalVolume* g4rcDetectorConstruction::Construct() {
 	G4RotationMatrix* rot_gem = new G4RotationMatrix();
 	rot_gem->rotateY(180.*deg - gem_angle);
 
-
+/*
 	G4Box* gem1_box = new G4Box("gem1_box", w_gem/2., h_gem/2., t_gem/2.);  
 	G4LogicalVolume* gem1_log = new G4LogicalVolume(gem1_box, fMaterial->vacuum, "gem1_log", 0, 0, 0);
 	g4rcDetector* gem1_SD = new g4rcDetector("gem1_SD",101);
@@ -131,7 +131,7 @@ G4VPhysicalVolume* g4rcDetectorConstruction::Construct() {
 	SDman->AddNewDetector(gem2_SD);
 	gem2_log->SetSensitiveDetector(gem2_SD);
 	G4VPhysicalVolume* gem2_phys = new G4PVPlacement(rot_gem, pos2, gem2_log, "gem2_physical", world_log, false, 0);
-
+*/
 	// Plastic film
 	double h_poly = h_gem + 5.*cm;
 	double w_poly = w_gem + 5.*cm;
@@ -169,26 +169,37 @@ G4VPhysicalVolume* g4rcDetectorConstruction::Construct() {
 
 	G4RotationMatrix* rot_gmn = new G4RotationMatrix();
         rot_gmn->rotateY(180.*deg - gmn_angle);
-
+/*
 	G4Box* gmn_box = new G4Box("gmn_box", w_gmn/2., h_gmn/2., t_gmn/2.);  
 	G4LogicalVolume* gmn_log = new G4LogicalVolume(gmn_box, fMaterial->vacuum, "gmn_log", 0, 0, 0);
 	g4rcDetector* gmn_SD = new g4rcDetector("gmn_SD",201);
 	SDman->AddNewDetector(gmn_SD);
 	gmn_log->SetSensitiveDetector(gmn_SD);
 	G4VPhysicalVolume* gmn_phys = new G4PVPlacement(rot_gmn, pos_gmn, gmn_log, "gmn_physical", world_log, false, 0);
-
+*/
 	// End of simple GEM detector definition
 
 	
-/*
+
 	// Start of full GEM detector definition
 
 	AddGEM(world_log, 101, false, 55.04*cm, 122.88*cm, rot_gem, pos1);
 	AddGEM(world_log, 102, false, 55.04*cm, 122.88*cm, rot_gem, pos2);
-	AddGEM(world_log, 201, false, 50.*cm, 50.*cm, rot_gmn, pos_gmn); 	
+	
+	TrackingDetectorSD *GEMSD1 = new TrackingDetectorSD("GEMSD1", "GEM1");
+	G4SDManager::GetSDMpointer()->AddNewDetector(GEMSD1);
+	SetSensitiveDetector(Form("GEM%dCathodeLV",101), GEMSD1);
+	SetSensitiveDetector(Form("GEM%dCathodeLV",102), GEMSD1);
+	
+	AddGEM(world_log, 201, false, 50.*cm, 50.*cm, rot_gmn, pos_gmn);
+ 	
+	TrackingDetectorSD *GEMSD2 = new TrackingDetectorSD("GEMSD2", "GEM2");
+	G4SDManager::GetSDMpointer()->AddNewDetector(GEMSD2);
+	SetSensitiveDetector(Form("GEM%dCathodeLV",201), GEMSD2);
+
 	
 	// End of full GEM detector definition
-*/
+
 
 	G4VPhysicalVolume* world_phys
 	= new G4PVPlacement(0,G4ThreeVector(),world_log,"World",0,false,0);
@@ -409,12 +420,6 @@ void g4rcDetectorConstruction::AddGEM(G4LogicalVolume *mother, int layerid, bool
 
 }
 
-void g4rcDetectorConstruction::AddGEMSD(int layerid){
-	TrackingDetectorSD *GEMSD = new TrackingDetectorSD("GEMSD", "GEM");
-	G4SDManager::GetSDMpointer()->AddNewDetector(GEMSD);
-	SetSensitiveDetector("GEM0CathodeLV", GEMSD);
-	SetSensitiveDetector("GEM1CathodeLV", GEMSD);
-}
 
 void g4rcDetectorConstruction::GetTargetIndex(G4String targ) {
 

@@ -32,7 +32,6 @@ private:
 	g4rcMaterial* fMaterial;
 
 	void AddGEM(G4LogicalVolume*, int, bool, double, double, G4RotationMatrix*, G4ThreeVector);
-	void AddGEMSD(int);
 	G4double fGEMCenter[1];
 
 	G4SDManager* SDman;

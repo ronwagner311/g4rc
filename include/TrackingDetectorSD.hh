@@ -41,7 +41,7 @@
 
 #include "G4String.hh"
 
-#define MaxNHits 300
+//#define MaxNHits 300
 
 class G4HCofThisEvent;
 class G4Step;
@@ -61,16 +61,15 @@ public:
 	virtual void EndOfEvent(G4HCofThisEvent *);
 
 protected:
-    virtual void Register(TTree *);
-	virtual void Clear();
+    //virtual void Register(TTree *);
+	//virtual void Clear();
 
     G4int fID;
     G4String fAbbrev;
 	
 	GemHitsCollection *fHitsCollection;
 
-    bool fRegistered;
-
+/*
     int fN;
     int fPID[MaxNHits]; // Particle ID
     int fTID[MaxNHits]; // Track ID
@@ -85,6 +84,10 @@ protected:
     double fTime[MaxNHits];
     double fEdep[MaxNHits];
     double fTrackL[MaxNHits];
+*/
+
+private:
+	G4int fHCID;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
