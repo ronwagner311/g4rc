@@ -52,8 +52,9 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-TrackingDetectorSD::TrackingDetectorSD(G4String name, G4String abbrev) : G4VSensitiveDetector(name), fAbbrev(abbrev), fHitsCollection(NULL), fRegistered(false)
+TrackingDetectorSD::TrackingDetectorSD(G4String name, G4String abbrev, G4int detnum) : G4VSensitiveDetector(name), fAbbrev(abbrev), fHitsCollection(NULL), fRegistered(false)
 {
+	fDetNum = detnum;
     fID = name.hash() % 100000;
     //G4cout << name << "\t" << fAbbrev << "\t" << fID << G4endl;
 	fHCID=-1
@@ -167,6 +168,7 @@ G4bool TrackingDetectorSD::ProcessHits(G4Step *aStep, G4TouchableHistory *)
             aHit->SetTrackLength(StepLength);
             aHit->SetPhysV(thePhysVol);
             aHit->SetCopyNo(CopyNo);
+			aHit->SetDetectorNum(fDetNum)
 
             fHitsCollection->insert(aHit);
         }

@@ -62,6 +62,7 @@ protected:
 
     G4int fID;
     G4String fAbbrev;
+	G4int fDetNum;
 	
 	GemHitsCollection *fHitsCollection;
 

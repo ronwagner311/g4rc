@@ -61,7 +61,7 @@ GemHit::~GemHit()
 
 bool GemHit::operator ==(const GemHit &right) const
 {
-    return ((fPID == right.fPID) && (fTrackID == right.fTrackID) && (fDetID == right.fDetID) && (fPhysV == right.fPhysV) && (fCopyNo == right.fCopyNo));
+    return ((fPID == right.fPID) && (fTrackID == right.fTrackID) && (fDetID == right.fDetID) && (fPhysV == right.fPhysV) && (fCopyNo == right.fCopyNo) && (fDetNum == right.fDetNum));
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -98,6 +98,7 @@ void GemHit::Clear()
     fTrackLen = 0;
     fPhysV = NULL;
     fCopyNo = 0;
+	fDetNum = 0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

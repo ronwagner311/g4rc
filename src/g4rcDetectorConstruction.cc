@@ -184,18 +184,19 @@ G4VPhysicalVolume* g4rcDetectorConstruction::Construct() {
 	// Start of full GEM detector definition
 
 	AddGEM(world_log, 101, false, 55.04*cm, 122.88*cm, rot_gem, pos1);
-	AddGEM(world_log, 102, false, 55.04*cm, 122.88*cm, rot_gem, pos2);
-	
-	TrackingDetectorSD *GEMSD1 = new TrackingDetectorSD("GEMSD1", "GEM1");
+	TrackingDetectorSD *GEMSD1 = new TrackingDetectorSD("GEMSD1", "GEM1",101);
 	G4SDManager::GetSDMpointer()->AddNewDetector(GEMSD1);
 	SetSensitiveDetector(Form("GEM%dCathodeLV",101), GEMSD1);
-	SetSensitiveDetector(Form("GEM%dCathodeLV",102), GEMSD1);
+	
+	AddGEM(world_log, 102, false, 55.04*cm, 122.88*cm, rot_gem, pos2);
+	TrackingDetectorSD *GEMSD2 = new TrackingDetectorSD("GEMSD2", "GEM2",102);
+	G4SDManager::GetSDMpointer()->AddNewDetector(GEMSD2);
+	SetSensitiveDetector(Form("GEM%dCathodeLV",102), GEMSD2);
 	
 	AddGEM(world_log, 201, false, 50.*cm, 50.*cm, rot_gmn, pos_gmn);
- 	
-	TrackingDetectorSD *GEMSD2 = new TrackingDetectorSD("GEMSD2", "GEM2");
-	G4SDManager::GetSDMpointer()->AddNewDetector(GEMSD2);
-	SetSensitiveDetector(Form("GEM%dCathodeLV",201), GEMSD2);
+	TrackingDetectorSD *GEMSD3 = new TrackingDetectorSD("GEMSD3", "GEM3",201);
+	G4SDManager::GetSDMpointer()->AddNewDetector(GEMSD3);
+	SetSensitiveDetector(Form("GEM%dCathodeLV",201), GEMSD3);
 
 	
 	// End of full GEM detector definition
