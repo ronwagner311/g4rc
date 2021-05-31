@@ -49,7 +49,7 @@ class TTree;
 class TrackingDetectorSD : public G4VSensitiveDetector
 {
 public:
-    TrackingDetectorSD(G4String name, G4String abbrev);
+    TrackingDetectorSD(G4String name, G4String abbrev, G4int detnum);
     virtual ~TrackingDetectorSD();
 
 	virtual void Initialize(G4HCofThisEvent *);
