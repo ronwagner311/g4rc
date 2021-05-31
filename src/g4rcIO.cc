@@ -85,7 +85,7 @@ void g4rcIO::InitializeTree(){
 	//gemhits
 	
 	fTree->Branch("GEM.N", &fGEMN, "GEM.N/I");
-    fTree->Branch("GEM.PID", fGEMPID, "GEM.PID[GEM.N]/I";
+    fTree->Branch("GEM.PID", fGEMPID, "GEM.PID[GEM.N]/I");
     fTree->Branch("GEM.TID", fGEMTID, "GEM.TID[GEM.N]/I");
     fTree->Branch("GEM.PTID", fGEMPTID, "GEM.PTID[GEM.N]/I");
     fTree->Branch("GEM.X", fGEMX, "GEM.X[GEM.N]/D");
