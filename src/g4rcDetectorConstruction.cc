@@ -16,6 +16,7 @@
 #include "G4UserLimits.hh"
 #include "G4SubtractionSolid.hh"
 #include "G4UnionSolid.hh"
+#include "TrackingDetectorSD.hh"
 
 #include "TString.h"
 
