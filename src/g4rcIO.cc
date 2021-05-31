@@ -84,21 +84,21 @@ void g4rcIO::InitializeTree(){
 	
 	//gemhits
 	
-	tree->Branch("GEM.N", &fGEMN, "GEM.N/I");
-    tree->Branch("GEM.PID", fGEMPID, "GEM.PID[GEM.N]/I";
-    tree->Branch("GEM.TID", fGEMTID, "GEM.TID[GEM.N]/I");
-    tree->Branch("GEM.PTID", fGEMPTID, "GEM.PTID[GEM.N]/I");
-    tree->Branch("GEM.X", fGEMX, "GEM.X[GEM.N]/D");
-    tree->Branch("GEM.Y", fGEMY, "GEM.Y[GEM.N]/D");
-    tree->Branch("GEM.Z", fGEMZ, "GEM.Z[GEM.N]/D");
-    tree->Branch("GEM.P", fGEMMomentum, "GEM.P[GEM.N]/D");
-    tree->Branch("GEM.Theta", fGEMTheta, "GEM.Theta[GEM.N]/D");
-    tree->Branch("GEM.Phi", fGEMPhi, "GEM.Phi[GEM.N]/D");
-    tree->Branch("GEM.Time", fGEMTime, "GEM.Time[GEM.N]/D");
-    tree->Branch("GEM.Edep", fGEMEdep, "GEM.Edep[GEM.N]/D");
-    tree->Branch("GEM.TrackL", fGEMTrackL, "GEM.TrackL[GEM.N]/D");
-    tree->Branch("GEM.DID", fGEMDID, "GEM.DID[GEM.N]/I");
-	tree->Branch("GEM.DetNum", fGEMHit_det, "GEM.DetNum[GEM.N]/I");
+	fTree->Branch("GEM.N", &fGEMN, "GEM.N/I");
+    fTree->Branch("GEM.PID", fGEMPID, "GEM.PID[GEM.N]/I";
+    fTree->Branch("GEM.TID", fGEMTID, "GEM.TID[GEM.N]/I");
+    fTree->Branch("GEM.PTID", fGEMPTID, "GEM.PTID[GEM.N]/I");
+    fTree->Branch("GEM.X", fGEMX, "GEM.X[GEM.N]/D");
+    fTree->Branch("GEM.Y", fGEMY, "GEM.Y[GEM.N]/D");
+    fTree->Branch("GEM.Z", fGEMZ, "GEM.Z[GEM.N]/D");
+    fTree->Branch("GEM.P", fGEMMomentum, "GEM.P[GEM.N]/D");
+    fTree->Branch("GEM.Theta", fGEMTheta, "GEM.Theta[GEM.N]/D");
+    fTree->Branch("GEM.Phi", fGEMPhi, "GEM.Phi[GEM.N]/D");
+    fTree->Branch("GEM.Time", fGEMTime, "GEM.Time[GEM.N]/D");
+    fTree->Branch("GEM.Edep", fGEMEdep, "GEM.Edep[GEM.N]/D");
+    fTree->Branch("GEM.TrackL", fGEMTrackL, "GEM.TrackL[GEM.N]/D");
+    fTree->Branch("GEM.DID", fGEMDID, "GEM.DID[GEM.N]/I");
+	fTree->Branch("GEM.DetNum", fGEMHit_det, "GEM.DetNum[GEM.N]/I");
 	
     return;
 }
@@ -210,20 +210,20 @@ void g4rcIO::AddGemHit(GemHit *hit){
 //	G4cerr << "WARNING: " << __PRETTY_FUNCTION__ << " line " << __LINE__ << ":  Buffer size exceeded!" << G4endl;
 	return;
     }
-	fGEMHit_det[i] = hit->GetDetectorNum();
-    fGEMPID[i] = hit->GetPID();
-	fGEMTID[i] = hit->GetTrackID();
-    fGEMPTID[i] = hit->GetParentTrackID();
-	fGEMDID[i] = hit->GetDetectorID();
-	fGEMX[i] = hit->GetInPos().x();
-	fGEMY[i] = hit->GetInPos().y();
-	fGEMZ[i] = hit->GetInPos().z();
-	fGEMMomentum[i] = hit->GetInMom().mag();
-	fGEMTheta[i] = hit->GetInMom().theta();
-	fGEMPhi[i] = hit->GetInMom().phi();
-	fGEMTime[i] = hit->GetTime();
-	fGEMEdep[i] = hit->GetEdep();
-	fGEMTrackL[i] = hit->GetTrackLength();
+	fGEMHit_det[n] = hit->GetDetectorNum();
+    fGEMPID[n] = hit->GetPID();
+	fGEMTID[n] = hit->GetTrackID();
+    fGEMPTID[n] = hit->GetParentTrackID();
+	fGEMDID[n] = hit->GetDetectorID();
+	fGEMX[n] = hit->GetInPos().x();
+	fGEMY[n] = hit->GetInPos().y();
+	fGEMZ[n] = hit->GetInPos().z();
+	fGEMMomentum[n] = hit->GetInMom().mag();
+	fGEMTheta[n] = hit->GetInMom().theta();
+	fGEMPhi[n] = hit->GetInMom().phi();
+	fGEMTime[n] = hit->GetTime();
+	fGEMEdep[n] = hit->GetEdep();
+	fGEMTrackL[n] = hit->GetTrackLength();
 
     fGEMN++;
 
