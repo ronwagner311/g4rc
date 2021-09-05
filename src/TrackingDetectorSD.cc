@@ -52,11 +52,12 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-TrackingDetectorSD::TrackingDetectorSD(G4String name, G4String abbrev) : G4VSensitiveDetector(name), fAbbrev(abbrev), fHitsCollection(NULL), fRegistered(false)
+TrackingDetectorSD::TrackingDetectorSD(G4String name, G4String abbrev, G4int detnum) : G4VSensitiveDetector(name), fAbbrev(abbrev), fHitsCollection(NULL)
 {
+	fDetNum = detnum;
     fID = name.hash() % 100000;
     //G4cout << name << "\t" << fAbbrev << "\t" << fID << G4endl;
-	fHCID=-1
+	fHCID=-1;
     G4String cname = "Coll";
     cname = fAbbrev + cname;
     collectionName.insert(cname);
@@ -91,11 +92,11 @@ G4bool TrackingDetectorSD::ProcessHits(G4Step *aStep, G4TouchableHistory *)
     if (!fHitsCollection) return false;
 
     G4Track *theTrack = aStep->GetTrack();
-    TrackInformation *theTrackInfo = (TrackInformation *)(theTrack->GetUserInformation());
+//    TrackInformation *theTrackInfo = (TrackInformation *)(theTrack->GetUserInformation());
 
     G4double Edep = aStep->GetTotalEnergyDeposit();
 
-    G4int AncestorID = theTrackInfo->GetAncestor(fID);
+//    G4int AncestorID = theTrackInfo->GetAncestor(fID);
 
     if (Edep > 0) {
         G4StepPoint *preStepPoint = aStep->GetPreStepPoint();
@@ -127,7 +128,8 @@ G4bool TrackingDetectorSD::ProcessHits(G4Step *aStep, G4TouchableHistory *)
 
         G4int CopyNo = theTouchable->GetCopyNumber();
 
-        if (AncestorID < 0) AncestorID = TrackID;
+//        if (AncestorID < 0) AncestorID = TrackID;
+	G4int AncestorID = TrackID;	
 
         GemHit *aHit = NULL;
 
@@ -167,6 +169,7 @@ G4bool TrackingDetectorSD::ProcessHits(G4Step *aStep, G4TouchableHistory *)
             aHit->SetTrackLength(StepLength);
             aHit->SetPhysV(thePhysVol);
             aHit->SetCopyNo(CopyNo);
+			aHit->SetDetectorNum(fDetNum);
 
             fHitsCollection->insert(aHit);
         }
@@ -174,6 +177,7 @@ G4bool TrackingDetectorSD::ProcessHits(G4Step *aStep, G4TouchableHistory *)
 
     G4int nSecondaries = aStep->GetNumberOfSecondariesInCurrentStep();
 
+/*
     if (nSecondaries > 0 && AncestorID >= 0) {
         for (auto &aSecondary : * (aStep->GetSecondaryInCurrentStep())) {
             if (aSecondary->GetUserInformation() == 0) {
@@ -184,7 +188,7 @@ G4bool TrackingDetectorSD::ProcessHits(G4Step *aStep, G4TouchableHistory *)
             }
         }
     }
-
+*/
     return true;
 }
 

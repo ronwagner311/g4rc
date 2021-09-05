@@ -82,43 +82,24 @@ void g4rcIO::InitializeTree(){
 
     fTree->Branch("hit.edep", &fDetHit_Edep, "hit.edep[hit.n]/D");
 	
-	//gem1hits
-	G4String fAbbrev = "GEM1";
-	const char *abbr = fAbbrev.data();
+	//gemhits
 	
-	tree->Branch(Form("%s.N", abbr), &fGEM1N, Form("%s.N/I", abbr));
-    tree->Branch(Form("%s.PID", abbr), fGEM1PID, Form("%s.PID[%s.N]/I", abbr, abbr));
-    tree->Branch(Form("%s.TID", abbr), fGEM1TID, Form("%s.TID[%s.N]/I", abbr, abbr));
-    tree->Branch(Form("%s.PTID", abbr), fGEM1PTID, Form("%s.PTID[%s.N]/I", abbr, abbr));
-    tree->Branch(Form("%s.X", abbr), fGEM1X, Form("%s.X[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.Y", abbr), fGEM1Y, Form("%s.Y[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.Z", abbr), fGEM1Z, Form("%s.Z[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.P", abbr), fGEM1Momentum, Form("%s.P[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.Theta", abbr), fGEM1Theta, Form("%s.Theta[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.Phi", abbr), fGEM1Phi, Form("%s.Phi[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.Time", abbr), fGEM1Time, Form("%s.Time[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.Edep", abbr), fGEM1Edep, Form("%s.Edep[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.TrackL", abbr), fGEM1TrackL, Form("%s.TrackL[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.DID", abbr), fGEM1DID, Form("%s.DID[%s.N]/I", abbr, abbr));
+	fTree->Branch("GEM.N", &fGEMN, "GEM.N/I");
+    fTree->Branch("GEM.PID", fGEMPID, "GEM.PID[GEM.N]/I");
+    fTree->Branch("GEM.TID", fGEMTID, "GEM.TID[GEM.N]/I");
+    fTree->Branch("GEM.PTID", fGEMPTID, "GEM.PTID[GEM.N]/I");
+    fTree->Branch("GEM.X", fGEMX, "GEM.X[GEM.N]/D");
+    fTree->Branch("GEM.Y", fGEMY, "GEM.Y[GEM.N]/D");
+    fTree->Branch("GEM.Z", fGEMZ, "GEM.Z[GEM.N]/D");
+    fTree->Branch("GEM.P", fGEMMomentum, "GEM.P[GEM.N]/D");
+    fTree->Branch("GEM.Theta", fGEMTheta, "GEM.Theta[GEM.N]/D");
+    fTree->Branch("GEM.Phi", fGEMPhi, "GEM.Phi[GEM.N]/D");
+    fTree->Branch("GEM.Time", fGEMTime, "GEM.Time[GEM.N]/D");
+    fTree->Branch("GEM.Edep", fGEMEdep, "GEM.Edep[GEM.N]/D");
+    fTree->Branch("GEM.TrackL", fGEMTrackL, "GEM.TrackL[GEM.N]/D");
+    fTree->Branch("GEM.DID", fGEMDID, "GEM.DID[GEM.N]/I");
+	fTree->Branch("GEM.DetNum", fGEMHit_det, "GEM.DetNum[GEM.N]/I");
 	
-	//gem2hits
-	fAbbrev = "GEM2";
-	abbr = fAbbrev.data();
-	
-	tree->Branch(Form("%s.N", abbr), &fGEM2N, Form("%s.N/I", abbr));
-    tree->Branch(Form("%s.PID", abbr), fGEM2PID, Form("%s.PID[%s.N]/I", abbr, abbr));
-    tree->Branch(Form("%s.TID", abbr), fGEM2TID, Form("%s.TID[%s.N]/I", abbr, abbr));
-    tree->Branch(Form("%s.PTID", abbr), fGEM2PTID, Form("%s.PTID[%s.N]/I", abbr, abbr));
-    tree->Branch(Form("%s.X", abbr), fGEM2X, Form("%s.X[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.Y", abbr), fGEM2Y, Form("%s.Y[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.Z", abbr), fGEM2Z, Form("%s.Z[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.P", abbr), fGEM2Momentum, Form("%s.P[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.Theta", abbr), fGEM2Theta, Form("%s.Theta[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.Phi", abbr), fGEM2Phi, Form("%s.Phi[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.Time", abbr), fGEM2Time, Form("%s.Time[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.Edep", abbr), fGEM2Edep, Form("%s.Edep[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.TrackL", abbr), fGEM2TrackL, Form("%s.TrackL[%s.N]/D", abbr, abbr));
-    tree->Branch(Form("%s.DID", abbr), fGEM2DID, Form("%s.DID[%s.N]/I", abbr, abbr));
     return;
 }
 
@@ -134,8 +115,7 @@ void g4rcIO::FillTree(){
 void g4rcIO::Flush(){
     	//  Set arrays to 0
     	fNDetHit = 0;
-		fGEM1N = 0;
-		fGEM2N = 0;
+		fGEMN = 0;
 }
 
 void g4rcIO::WriteTree(){
@@ -220,62 +200,35 @@ void g4rcIO::AddDetectorHit(g4rcDetectorHit *hit){
     return;
 }
 
-//gem1Hit
+//gemHit
 
-void g4rcIO::AddGem1Hit(GemHit *hit){
-    int n = fGEM1N;
+void g4rcIO::AddGemHit(GemHit *hit){
+    int n = fGEMN;
     //printf("%d hits in detector\n", fNDetHit );
 
     if( n >= __MAXHIT_GEM ){
 //	G4cerr << "WARNING: " << __PRETTY_FUNCTION__ << " line " << __LINE__ << ":  Buffer size exceeded!" << G4endl;
 	return;
     }
+	fGEMHit_det[n] = hit->GetDetectorNum();
+    fGEMPID[n] = hit->GetPID();
+	fGEMTID[n] = hit->GetTrackID();
+    fGEMPTID[n] = hit->GetParentTrackID();
+	fGEMDID[n] = hit->GetDetectorID();
+	fGEMX[n] = hit->GetInPos().x();
+	fGEMY[n] = hit->GetInPos().y();
+	fGEMZ[n] = hit->GetInPos().z();
+	fGEMMomentum[n] = hit->GetInMom().mag();
+	fGEMTheta[n] = hit->GetInMom().theta();
+	fGEMPhi[n] = hit->GetInMom().phi();
+	fGEMTime[n] = hit->GetTime();
+	fGEMEdep[n] = hit->GetEdep();
+	fGEMTrackL[n] = hit->GetTrackLength();
 
-    fGEM1PID[i] = hit->GetPID();
-	fGEM1TID[i] = hit->GetTrackID();
-    fGEM1PTID[i] = hit->GetParentTrackID();
-	fGEM1DID[i] = hit->GetDetectorID();
-	fGEM1X[i] = hit->GetInPos().x();
-	fGEM1Y[i] = hit->GetInPos().y();
-	fGEM1Z[i] = hit->GetInPos().z();
-	fGEM1Momentum[i] = hit->GetInMom().mag();
-	fGEM1Theta[i] = hit->GetInMom().theta();
-	fGEM1Phi[i] = hit->GetInMom().phi();
-	fGEM1Time[i] = hit->GetTime();
-	fGEM1Edep[i] = hit->GetEdep();
-	fGEM1TrackL[i] = hit->GetTrackLength();
-
-    fGEM1N++;
-
-    return;
-}
-
-void g4rcIO::AddGem2Hit(GemHit *hit){
-    int n = fGEM2N;
-    //printf("%d hits in detector\n", fNDetHit );
-
-    if( n >= __MAXHIT_GEM ){
-//	G4cerr << "WARNING: " << __PRETTY_FUNCTION__ << " line " << __LINE__ << ":  Buffer size exceeded!" << G4endl;
-	return;
-    }
-
-    fGEM2PID[i] = hit->GetPID();
-	fGEM2TID[i] = hit->GetTrackID();
-    fGEM2PTID[i] = hit->GetParentTrackID();
-	fGEM2DID[i] = hit->GetDetectorID();
-	fGEM2X[i] = hit->GetInPos().x();
-	fGEM2Y[i] = hit->GetInPos().y();
-	fGEM2Z[i] = hit->GetInPos().z();
-	fGEM2Momentum[i] = hit->GetInMom().mag();
-	fGEM2Theta[i] = hit->GetInMom().theta();
-	fGEM2Phi[i] = hit->GetInMom().phi();
-	fGEM2Time[i] = hit->GetTime();
-	fGEM2Edep[i] = hit->GetEdep();
-	fGEM2TrackL[i] = hit->GetTrackLength();
-
-    fGEM2N++;
+    fGEMN++;
 
     return;
 }
+
 
 

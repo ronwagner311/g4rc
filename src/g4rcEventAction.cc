@@ -66,22 +66,14 @@ void g4rcEventAction::EndOfEventAction(const G4Event* evt ) {
 			}
 			if(GemHitsCollection *thiscast = dynamic_cast<GemHitsCollection *>(thiscol)){
 				for( unsigned int hidx = 0; hidx < thiscast->GetSize(); hidx++ ){
-					G4String ColName = thiscol->GetName();
-					if(ColName == "GEM1Coll"){
-						fIO->AddGem1Hit(
-							(GemHit *) thiscast->GetHit(hidx) );
-					}
-					if(ColName == "GEM2Coll"){
-						fIO->AddGem2Hit(
-							(GemHit *) thiscast->GetHit(hidx) );
-					}
+					fIO->AddGemHit(
+				  (GemHit *) thiscast->GetHit(hidx) );
 				}
 			}
 		  } 
 		  
 	  }
 	}
-
 
 	// Fill tree and reset buffers
 	fIO->FillTree();

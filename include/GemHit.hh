@@ -67,6 +67,7 @@ public:
     inline G4double GetTrackLength() const;
     inline const G4VPhysicalVolume *GetPhysV() const;
     inline G4int GetCopyNo() const;
+	inline G4int GetDetectorNum() const;
 
     inline void SetPID(G4int &val);
     inline void SetTrackID(G4int &val);
@@ -81,6 +82,7 @@ public:
     inline void SetTrackLength(G4double &val);
     inline void SetPhysV(G4VPhysicalVolume *val);
     inline void SetCopyNo(G4int &val);
+	inline void SetDetectorNum(G4int &val);
 
     inline void AddEdep(G4double &val);
     inline void AddTrackLength(G4double &val);
@@ -99,6 +101,7 @@ private:
     G4double      fTrackLen;
     const G4VPhysicalVolume *fPhysV;
     G4int         fCopyNo;
+	G4int		  fDetNum;
 };
 
 typedef G4THitsCollection<GemHit> GemHitsCollection;
@@ -182,6 +185,10 @@ inline G4int GemHit::GetCopyNo() const
     return fCopyNo;
 }
 
+inline G4int GemHit::GetDetectorNum() const
+{
+    return fDetNum;
+}
 inline void GemHit::SetPID(G4int &val)
 {
     fPID = val;
@@ -245,6 +252,11 @@ inline void GemHit::SetPhysV(G4VPhysicalVolume *val)
 inline void GemHit::SetCopyNo(G4int &val)
 {
     fCopyNo = val;
+}
+
+inline void GemHit::SetDetectorNum(G4int &val)
+{
+	fDetNum = val;
 }
 
 inline void GemHit::AddEdep(G4double &val)
