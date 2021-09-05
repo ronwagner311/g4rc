@@ -184,12 +184,12 @@ G4VPhysicalVolume* g4rcDetectorConstruction::Construct() {
 
 	// Start of full GEM detector definition
 
-	AddGEM(world_log, 101, false, 55.04*cm, 122.88*cm, rot_gem, pos1);
+	AddGEM(world_log, 101, false, 122.88*cm, 55.04*cm, rot_gem, pos1);
 	TrackingDetectorSD *GEMSD1 = new TrackingDetectorSD("GEMSD1", "GEM1",101);
 	G4SDManager::GetSDMpointer()->AddNewDetector(GEMSD1);
 	SetSensitiveDetector(Form("GEM%dCathodeLV",101), GEMSD1);
 	
-	AddGEM(world_log, 102, false, 55.04*cm, 122.88*cm, rot_gem, pos2);
+	AddGEM(world_log, 102, false, 122.88*cm, 55.04*cm, rot_gem, pos2);
 	TrackingDetectorSD *GEMSD2 = new TrackingDetectorSD("GEMSD2", "GEM2",102);
 	G4SDManager::GetSDMpointer()->AddNewDetector(GEMSD2);
 	SetSensitiveDetector(Form("GEM%dCathodeLV",102), GEMSD2);
@@ -269,9 +269,9 @@ void g4rcDetectorConstruction::AddGEM(G4LogicalVolume *mother, int layerid, bool
 //    G4SubtractionSolid *solidGEMGas = new G4SubtractionSolid(Form("GEM%dGasS", layerid), GEMGasBox, GEMSubBox, 0, G4ThreeVector(-GEMCenterOffset, 0, 0));
     G4LogicalVolume *logicGEMGas = new G4LogicalVolume(solidGEMGas, GEMGasM, Form("GEM%dGasLV", layerid));
 
-	g4rcDetector* GEM_SD = new g4rcDetector(Form("GEM_SD_%i", layerid),layerid);
-	SDman->AddNewDetector(GEM_SD);
-	logicGEMGas->SetSensitiveDetector(GEM_SD);
+//	g4rcDetector* GEM_SD = new g4rcDetector(Form("GEM_SD_%i", layerid),layerid);
+//	SDman->AddNewDetector(GEM_SD);
+//	logicGEMGas->SetSensitiveDetector(GEM_SD);
 
 	G4VisAttributes* GEM_gas_vis = new G4VisAttributes(G4Colour(0.5,0.,1.));
 	logicGEMGas->SetVisAttributes(GEM_gas_vis);

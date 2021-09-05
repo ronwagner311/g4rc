@@ -90,7 +90,7 @@ TrackInformation::TrackInformation(const TrackInformation *aTrackInfo)
 
 G4int TrackInformation::GetAncestor(G4int aDetectorID) const
 {
-    if (fAncestorMap.count(aDetectorID) > 0)
+    if (fAncestorMap.size() > 0 && fAncestorMap.count(aDetectorID) > 0)
         return fAncestorMap.at(aDetectorID);
 
     return -1;
